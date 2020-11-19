@@ -63,7 +63,6 @@ body {
 
 #input_date {
   width: 40%;
-  float: left;
   height: 50px;
   background-color: none;
   border: none;
@@ -85,19 +84,11 @@ body {
   display: none;
 }
 
-::-webkit-calendar-picker-indicator {
-  opacity: 1;
-  display: block;
-  float: left;
-  margin-right: 50px;
-  color: #fa163f;
-  width: 15.5px;
-  height: 12.5px;
-}
+
 
 #input_button {
   width: 60%;
-  float: left;
+  /* float: left; */
   margin-left: 20%;
   margin-top: 20px;
   background-color: #fff;
@@ -139,7 +130,7 @@ body {
 }
 
 .container {
-  float: left;
+ 
   margin-left: 5%;
   margin-bottom: 10px;
   background-color: #f5eaea;
@@ -224,40 +215,7 @@ body {
   font-family: monospace;
   font-weight: bold;
   font-size: 15px;
-  float: left;
   width: 100%;
-}
-
-#title_editing {
-  background-color: #fff;
-  font-family: monospace;
-  font-weight: bold;
-  font-size: 15px;
-  float: left;
-  width: 100%;
-  border-bottom: 1px solid #ffed83;
-  outline: none;
-}
-
-#title_editing:focus {
-  border-bottom: 3px solid #ffed83;
-
-}
-
-#date_editing {
-  background-color: #fff;
-  font-family: monospace;
-  font-weight: lighter;
-  font-size: 12px;
-  float: left;
-  width: 100%;
-  border-bottom: 1px solid #ffed83;
-  outline: none;
-}
-
-#date_editing:focus {
-  border-bottom: 3px solid #ffed83;
-
 }
 
 #task_date {
@@ -265,7 +223,7 @@ body {
   font-family: monospace;
   color: grey;
   font-size: 12px;
-  float: left;
+
   margin: 0;
   margin-bottom: 5px;
   width: 100%;
