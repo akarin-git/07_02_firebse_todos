@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>chatApp</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="js\jscroll-master\jquery.jscroll.js"></script>
+</head>
+
+<body>
+
+  
+
+  <div id="content_container">
+    <p> <input id="input_name" type="text" placeholder="name" /></p>
+    <div id="finish_task_header">
+      <p>  Todo Task.</p>
+     
+    </div>
+
+    <div id="task_input_container">
+      <input id="input_box" type="text" placeholder="start a task"/>
+      <!-- <input id="input_data" type="date"/> -->
+      <button id="input_button">
+      Enter Task
+     <i class="fa fa-arrow-circle-right"></i>
+    </button>
+   </div>
+ 
+
+    <!-- task -->
+    <p class="header"> Todo. </p>
+    
+    
+    <div class="container" id="container">
+
+   
+      <div class="task_container">
+
+        <div id="task_data">
+          <p id="name">Task Title 1</p>
+          <p id="time">time</p>
+          <p id="text">Task Date 1</p>
+        </div>
+        
+        <div id="task_tool">
+         
+          <button id="task_delete_button" onclick="task_delete();">
+            <i class="fa fa-trash"></i>
+          </button>
+        </div>
+    
+      </div>
+      
+
+        
+       
+       
+
+      </div>
+      
+    </div>
+    
+    
+
+  </div>
+
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <!-- 以下にfirebaseのコードを貼り付けよう -->
+
+  <!-- !!下記のfirebase-appの-appを消す -->
+
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/8.0.2/firebase.js"></script>
+
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+       https://firebase.google.com/docs/web/setup#available-libraries -->
+
+  <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyBz-uSf0A0d0WMnRWZmbaQwANVRyoiTjeI",
+      authDomain: "chat-fb-40374.firebaseapp.com",
+      databaseURL: "https://chat-fb-40374.firebaseio.com",
+      projectId: "chat-fb-40374",
+      storageBucket: "chat-fb-40374.appspot.com",
+      messagingSenderId: "1075026446962",
+      appId: "1:1075026446962:web:5258e98b8f4f4fe08c10eb"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+  </script>
+
+  <script>
+    // 日時をいい感じの形式にする関数
+    function convertFromFirestoreTimestampToDatetime(timestamp) {
+      const _d = timestamp ? new Date(timestamp * 1000) : new Date();
+      const Y = _d.getFullYear();
+      const m = (_d.getMonth() + 1).toString().padStart(2, '0');
+      const d = _d.getDate().toString().padStart(2, '0');
+      const H = _d.getHours().toString().padStart(2, '0');
+      const i = _d.getMinutes().toString().padStart(2, '0');
+      const s = _d.getSeconds().toString().padStart(2, '0');
+      return `${Y}/${m}/${d} ${H}:${i}:${s}`;
+    }
+
+    // データベースの設定を記述
+  
+    var db = firebase.firestore().collection('chat');
+
+   $('#input_button').on('click',function(){
+     console.log("add_task");
+    
+        const data = {
+        name: $('#input_name').val(),
+        text: $('#input_box').val(),
+        time: firebase.firestore.FieldValue.serverTimestamp(),
+      };
+
+      db.add(data);
+      // 名前が入っていないとき追加なし
+      if(data.name == '') {
+        return;
+      }
+      $('#input_box').val('');
+      
+   });
+
+   function task_delete(e) {
+
+    
+
+    
+   }
+
+
+
+
+    // データをリアルタイムに取得する処理
+
+
+     db.orderBy('time', 'desc').onSnapshot(function (querySnapshot) {
+      // console.log(querySnapshot);
+
+      const dataArray = [];
+      querySnapshot.docs.forEach(function (doc) {
+        // console.log(doc);
+        // console.log(doc.id);
+        // console.log(doc.data());
+
+        const data = doc.data();
+        const message = `
+        
+        <div class="container" id="container">
+         
+        <div class="task_container" id="${doc.id}">
+        <div id="task_data">
+          <p id="name">name: ${data.name}</p>
+          <p id="text">${data.text}</p>
+          <p id="time">${convertFromFirestoreTimestampToDatetime(data.time.seconds)}</p>
+        </div>
+          <div id="task_tool">
+         
+          <button id="task_delete_button" onclick="task_delete();">
+            <i class="fa fa-trash"></i>
+          </button>
+        </div>
+       </div>
+       </div>
+        `;
+        dataArray.push(message);
+      });
+        $('#container').html(dataArray);
+
+
+     });
+
+
+   
+   
+
+
+  </script>
+</body>
+
+</html>
