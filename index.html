@@ -51,24 +51,14 @@
         
         <div id="task_tool">
          
-          <button id="task_delete_button" onclick="task_delete();">
+          <button id="task_delete_button">
             <i class="fa fa-trash"></i>
           </button>
         </div>
     
       </div>
-      
-
-        
-       
-       
-
-      </div>
-      
+      </div> 
     </div>
-    
-    
-
   </div>
 
 
@@ -86,7 +76,7 @@
   <script>
     // Your web app's Firebase configuration
     var firebaseConfig = {
-      apiKey: "AIzaSyBz-uSf0A0d0WMnRWZmbaQwANVRyoiTjeI",
+      apiKey: "",
       authDomain: "chat-fb-40374.firebaseapp.com",
       databaseURL: "https://chat-fb-40374.firebaseio.com",
       projectId: "chat-fb-40374",
@@ -125,10 +115,6 @@
       };
 
       db.add(data);
-      // 名前が入っていないとき追加なし
-      if(data.name == '') {
-        return;
-      }
       $('#input_box').val('');
       
    });
